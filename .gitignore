@@ -1,0 +1,20 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+
+# models 
+yolo11n-pose.pt
+
+yolov8n-pose.pt
+
+vlm_descriptor.py
+
+workout_data.csv
+men_workout.mov
