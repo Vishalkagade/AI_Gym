@@ -17,11 +17,23 @@ def main():
     print("Press ESC to exit")
     
     # Start video capture
-    cap = cv2.VideoCapture(0)
-    
+    cap = cv2.VideoCapture("vid.mp4")
+
     if not cap.isOpened():
-        print("Error: Could not open camera")
+        print("Error: Could not open video file")
         return
+    
+    # Get video properties for output
+    frame_width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
+    frame_height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+    fps = int(cap.get(cv2.CAP_PROP_FPS))
+    
+    # Create video writer for output
+    output_path = 'vid_output.mp4'
+    video_writer = video_display.create_video_writer(
+        output_path, fps, frame_width, frame_height
+    )
+    print(f"Output video will be saved to: {output_path}")
 
     try:
         while cap.isOpened():
@@ -76,6 +88,9 @@ def main():
                 angle=angle if landmarks else None
             )
             
+            # Write frame to output video
+            video_display.write_frame(video_writer, frame)
+            
             # Display the frame
             video_display.show_frame('Bicep Curl Counter', frame)
             
@@ -86,10 +101,12 @@ def main():
     finally:
         # Cleanup
         cap.release()
+        video_display.release_video_writer(video_writer)
         cv2.destroyAllWindows()
         pose_detector.close()
         csv_logger.close()
         print(f"\nSession complete! Total reps: {rep_counter.get_count()}")
+        print(f"Output video saved to: {output_path}")
 
 
 if __name__ == "__main__":

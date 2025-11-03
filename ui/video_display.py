@@ -108,3 +108,52 @@ class VideoDisplay:
             frame: Image frame to display
         """
         cv2.imshow(window_name, frame)
+        
+    @staticmethod
+    def save_frame(frame, filename):
+        """
+        Save a frame to a file.
+        
+        Args:
+            frame: Image frame to save
+            filename: Path to save the image
+        """
+        cv2.imwrite(filename, frame)
+    
+    @staticmethod
+    def create_video_writer(output_path, fps, frame_width, frame_height):
+        """
+        Create a VideoWriter object for saving video.
+        
+        Args:
+            output_path: Path to save the output video
+            fps: Frames per second
+            frame_width: Width of the video frames
+            frame_height: Height of the video frames
+            
+        Returns:
+            cv2.VideoWriter object
+        """
+        fourcc = cv2.VideoWriter_fourcc(*'mp4v')
+        return cv2.VideoWriter(output_path, fourcc, fps, (frame_width, frame_height))
+    
+    @staticmethod
+    def write_frame(video_writer, frame):
+        """
+        Write a frame to the video file.
+        
+        Args:
+            video_writer: cv2.VideoWriter object
+            frame: Image frame to write
+        """
+        video_writer.write(frame)
+    
+    @staticmethod
+    def release_video_writer(video_writer):
+        """
+        Release the VideoWriter object.
+        
+        Args:
+            video_writer: cv2.VideoWriter object to release
+        """
+        video_writer.release()
